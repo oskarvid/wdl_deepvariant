@@ -1,0 +1,6 @@
+{
+  "deepVariant.InputBam": "/home/oskar/01-workspace/01-data/mergesam.bam",
+  "deepVariant.InputBai": "/home/oskar/01-workspace/01-data/mergesam.bai",
+  "deepVariant.ReferenceFasta": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta",
+  "deepVariant.ReferenceFai": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.fai"
+}
