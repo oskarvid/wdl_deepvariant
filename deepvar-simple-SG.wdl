@@ -3,21 +3,23 @@ workflow deepVariant {
 	File ReferenceFai
 	File InputBam
 	File InputBai
-	
-call make_examples {
-  input:
-  	ReferenceFasta = ReferenceFasta,
-  	ReferenceFai = ReferenceFai,
-	InputBam = InputBam,
-	InputBai = InputBai,
-	Examples = "examples",
-  }
+	Array[File] bedFile
 
-  scatter (file in make_examples.ExamplesOutput1){
+  scatter (subInterval in bedFile){
+	call make_examples {
+	  input:
+		ReferenceFasta = ReferenceFasta,
+		ReferenceFai = ReferenceFai,
+		InputBam = InputBam,
+		InputBai = InputBai,
+		Examples = "examples",
+		BedFile = subInterval,
+	  }
+
 	call call_variants {
 	  input:
 		CallVariantsOutput = "called_variants_raw",
-		Examples = file,
+		Examples = make_examples.ExamplesOutput,
 	  }
 
 	call post_process {
@@ -37,6 +39,7 @@ call GatherVCFs {
 }
 
 task make_examples {
+	Array[File] BedFile
 	File InputBam
 	File InputBai
 	File ReferenceFasta
@@ -45,54 +48,54 @@ task make_examples {
 
 	command<<<
 	bash <<CODE
-		seq 0 3 | \
-		parallel --eta --halt 2 \
 		python /home/bin/make_examples.zip \
 		--mode calling \
 		--ref ${ReferenceFasta} \
 		--reads ${InputBam} \
-		--examples ${Examples}.tfrecord@4.gz \
-		--task {}
+		--examples ${Examples}.tfrecord.gz \
+		--regions ${sep=" --regions " BedFile}
 	CODE
 		>>>
 	output {
-		Array[File] ExamplesOutput1 = glob("${Examples}.tfrecord-*.gz")
+		File ExamplesOutput = "${Examples}.tfrecord.gz"
 	}
     runtime {
       docker: "dajunluo/deepvariant"
+      continueOnReturnCode: [0, 1]
     }
 }
 
 task call_variants {
-	Array[File] Examples
+	File Examples
 	String CallVariantsOutput
 
 	command<<<
 	bash <<CODE
 		python /home/bin/call_variants.zip \
 		--outfile ${CallVariantsOutput}.tfrecord.gz \
-		--examples ${sep=" --examples " Examples} \
+		--examples ${Examples} \
 		--checkpoint /home/models/model.ckpt
 	CODE
 		>>>
 	output {
 		File CallOutput = "${CallVariantsOutput}.tfrecord.gz"
 	}
-	runtime {
-	  docker: "dajunluo/deepvariant"
-	}
+    runtime {
+      docker: "dajunluo/deepvariant"
+      continueOnReturnCode: [0, 1]
+    }
 }
 
 task post_process {
 	File ReferenceFasta
 	File ReferenceFai
-	Array[File] InputFile
+	File InputFile
 	String FinalOutput
 
 	command {
 		python /home/bin/postprocess_variants.zip \
 		--ref ${ReferenceFasta} \
-		--infile ${sep=" --infile " InputFile} \
+		--infile ${InputFile} \
 		--outfile ${FinalOutput}.vcf.gz
 	}
 	output {
@@ -100,6 +103,7 @@ task post_process {
 	}
     runtime {
       docker: "dajunluo/deepvariant"
+      continueOnReturnCode: [0, 1]
     }
 }
 
@@ -117,4 +121,7 @@ task GatherVCFs {
   output {
 	File output_vcfs = "${Output_Vcf_Name}.vcf.gz"
   }
+    runtime {
+      docker: "oskarv/wdl"
+    }
 }

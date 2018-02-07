@@ -8,6 +8,7 @@ workflow deepVariant {
 	File ref_bwt
 	File ref_pac
 	File ref_sa
+	Array[File] bedFile
 
   # Input files
 	File inputSamplesFile
@@ -77,6 +78,7 @@ call MarkDup {
 	Input_File = MergeBamAlignment.output_bam,
   }
 
+  scatter (subInterval in bedFile){
 call make_examples {
   input:
   	ref_fasta = ref_fasta,
@@ -84,6 +86,7 @@ call make_examples {
 	InputBam = MarkDup.MarkDupOutputBam,
 	InputBai = MarkDup.MarkDupOutputBai,
 	Examples = "examples",
+	BedFile = subInterval,
   }
 
 call call_variants {
@@ -98,6 +101,12 @@ call post_process {
   	ref_fasta_index = ref_fasta_index,
 	InputFile = call_variants.CallOutput,
 	FinalOutput = "deepVariant",
+  }
+}
+call GatherVCFs {
+  input:
+	Input_Vcfs = post_process.Output,
+	Output_Vcf_Name = "DeepVariantFinal",
   }
 }
 
@@ -188,6 +197,9 @@ task FastqToSam {
 	File outputbam = "${Unmapped_Basename}.bam"
 	File outputbam_md5 = "${Unmapped_Basename}.bam.md5"
   }
+  runtime {
+  	docker: "oskarv/wdl:latest"
+  }
 }
 
 task BwaMem {
@@ -208,12 +220,15 @@ task BwaMem {
   String Base_Name
   
   command {
-	bwa mem -t 3 \
+	bwa mem -t 16 \
 	  -R "@RG\tID:${ID}\tSM:${SM}\tLB:${LB}\tPL:${PL}\tPU:NotDefined" \
 	  -M ${ref_fasta} ${Input_Fastq1} ${Input_Fastq2} > ${Base_Name}.sam
   }
   output {
 	File outputfile = "${Base_Name}.sam"
+  }
+  runtime {
+  	docker: "oskarv/wdl:latest"
   }
 }
 
@@ -253,6 +268,9 @@ task MergeBamAlignment {
 	File output_bam = "${Output_Bam_Basename}.bam"
 	File output_md5 = "${Output_Bam_Basename}.bam.md5"
   }
+  runtime {
+  	docker: "oskarv/wdl:latest"
+  }
 }
 
 task MarkDup {
@@ -276,22 +294,29 @@ task MarkDup {
 	File MarkDupOutputBai = "${Base_Name}.bai"
 	File MetricsFile = "${Base_Name}.metrics"
   }
+  runtime {
+  	docker: "oskarv/wdl:latest"
+  }
 }
 
 task make_examples {
+	Array[File] BedFile
 	File InputBam
 	File InputBai
 	File ref_fasta
 	File ref_fasta_index
 	String Examples
 
-	command {
+	command<<<
+	bash <<CODE
 		python /home/bin/make_examples.zip \
 		--mode calling \
 		--ref ${ref_fasta} \
 		--reads ${InputBam} \
-		--examples ${Examples}.tfrecord.gz
-	}
+		--examples ${Examples}.tfrecord.gz \
+		--regions ${sep=" --regions " BedFile}
+	CODE
+		>>>
 	output {
 		File ExamplesOutput = "${Examples}.tfrecord.gz"
 	}
@@ -304,12 +329,14 @@ task call_variants {
 	File Examples
 	String CallVariantsOutput
 
-	command {
+	command<<<
+	bash <<CODE
 		python /home/bin/call_variants.zip \
 		--outfile ${CallVariantsOutput}.tfrecord.gz \
 		--examples ${Examples} \
 		--checkpoint /home/models/model.ckpt
-	}
+	CODE
+		>>>
 	output {
 		File CallOutput = "${CallVariantsOutput}.tfrecord.gz"
 	}
@@ -338,3 +365,21 @@ task post_process {
     }
 }
 
+task GatherVCFs {
+  Array[File] Input_Vcfs
+  String Output_Vcf_Name
+
+  command {
+	gatk --java-options -Djava.io.tempdir=`pwd`/tmp \
+	  MergeVcfs \
+	  -I ${sep=" -I " Input_Vcfs} \
+	  -O ${Output_Vcf_Name}.vcf.gz \
+	  --CREATE_INDEX true
+  }
+  output {
+	File output_vcfs = "${Output_Vcf_Name}.vcf.gz"
+  }
+  runtime {
+  	docker: "oskarv/wdl:latest"
+  }
+}

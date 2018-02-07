@@ -18,5 +18,4 @@
 # HPO = Type: string. Value: HPO ID, separated by ',' if multiple values														
 # NOTES = Type: string. Value: notable information regarding the file or sample, such as suspected issues etc.														
 SAMPLE	FLOWCELL	LANE	FILE1	FILE2	LIBRARY	PLATFORM
-sample01	H7LJGBBXX	1	/home/oskar/01-workspace/00-temp/deepvariant/inputs/test_R1.fastq.gz	/home/oskar/01-workspace/00-temp/deepvariant/inputs/test_R2.fastq.gz	LIB1	ILLUMINA
-sample01	H7LJGBBXX	2	/home/oskar/01-workspace/00-temp/deepvariant/inputs/test_R1.fastq.gz	/home/oskar/01-workspace/00-temp/deepvariant/inputs/test_R2.fastq.gz	LIB2	ILLUMINA
+sample01	H7LJGBBXX	1	/media/big-disk/01-workspace/00-temp/deepvariant/data/test_R1.fastq.gz	/media/big-disk/01-workspace/00-temp/deepvariant/data/test_R2.fastq.gz	LIB1	ILLUMINA

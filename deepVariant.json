@@ -1,11 +1,19 @@
 {
-  "deepVariant.ref_fasta": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta",
-  "deepVariant.ref_fasta_index": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.fai",
-  "deepVariant.ref_ann": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.ann",
-  "deepVariant.ref_bwt": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.bwt",
-  "deepVariant.ref_sa": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.sa",
-  "deepVariant.ref_pac": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.pac",
-  "deepVariant.ref_amb": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.fasta.amb",
-  "deepVariant.ref_dict": "/home/oskar/01-workspace/01-data/refdata/hg19/human_g1k_v37_decoy.dict",
-  "deepVariant.inputSamplesFile": "/home/oskar/01-workspace/00-temp/deepvariant/inputs/template_sample_manifest.tsv"
+  "deepVariant.ref_fasta": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta",
+  "deepVariant.ref_fasta_index": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.fai",
+  "deepVariant.ref_ann": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.ann",
+  "deepVariant.ref_bwt": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.bwt",
+  "deepVariant.ref_sa": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.sa",
+  "deepVariant.ref_pac": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.pac",
+  "deepVariant.ref_amb": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.amb",
+  "deepVariant.ref_dict": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.dict",
+  "deepVariant.inputSamplesFile": "/media/big-disk/01-workspace/00-temp/deepvariant/inputs/template_sample_manifest.tsv",
+  "deepVariant.bedFile": [
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-1.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-2.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-3.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-4.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-5.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-6.bed"
+  ]
 }
