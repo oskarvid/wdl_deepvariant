@@ -1,5 +1,5 @@
 ### DeepVariant wdl based pipeline  
-(This is still a rough draft)
+(This pipeline is only for testing purposes, there are probably resources usage issues with call variants, tread with caution)
 
 ## Downloading the reference files  
 The default reference fasta is the hg38 fasta file from the Broad Institute, they host it at their public ftp server here: ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38  
@@ -23,7 +23,4 @@ Before you can run the start-cromwell.sh script, you need to run "sh scripts/dl-
 Now that the MySQL and cromwell servers are up and running, you need to edit the appropriate .json file for the pipeline version you want to run, e.g deepVariant.json for the complete pipeline. Edit the file paths for each file, also go to the inputs/template_sample_manifest.tsv file, enter the correct file paths for the input files, and once that's done you can finally run "sh scripts/start-pipeline.sh" script.
 
 There are currently three start pipeline scripts, one for the full version, one for the "simple.wdl" that starts with a bam file as input and uses GNU parallel for parallelization. This version is not planned to be long lived but this has still not been definitively decided.  
-The third start script will start with a bam file and run the deepvariant tools with scatter gather parallelization, unfortunately there seems to be a bug that causes "call_variants" to use as many threads per process as there are shards in the scatter gather operation.  
-I.e if there are 16 shards, there will potentially be 16*16 threads used by call_variants. The expected behavior is that each call_variants process will only use one thread, and not as many threads as there are shards _per shard_. Hence if you have a 16 thread system, 4 shards should at most use 4*4 threads. This would limit the resource usage to only a fourth of the cores during the "make_calls" stage, which is a very demanding and long process.
-
-I will investigate this further when I get the opportunity.
+The third start script will start with a bam file and run the deepvariant tools with scatter gather parallelization. The scatter gather version has not been tested enough yet, but it seems like each shard will get 16 threads in the call variants step, thus if you only have 16 cores and are running two or more shards, you will overload your machine. Tread with caution, this is still only for testing purposes.
