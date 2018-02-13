@@ -13,6 +13,8 @@ These three scripts need to be executed in the following order to start the pipe
 2. sh scripts/start-cromwell-server.sh  
 3. sh scripts/start-pipeline.sh  
 
+Before setting up the MySQL and cromwell servers it's a good idea to index the fasta file with bwa since it's a very time consuming process. Just run "bwa index -a bwtsw filename.fasta" and continue with the steps below.
+
 If you simply run the start-mysql-server.sh script it will download the required mysql:5.7 docker image automatically. You might want to edit the username and password in the cromwell-mysql/mysql/init_user.sql file, the default is set to cromwell for both. If you edit the init_user.sql file, you also need to edit the cromwell-mysql/cromwell/application.conf file and set the correct username and password so cromwell can log in to the MySQL database.  
 
 The second step is setting up the start-cromwell-server.sh script. As long as you run the pipeline from the "wdl_pipeline" directory you only need to edit "REFERENCE", which is the directory where your reference files are located. You also need to run "sudo docker ps -a" and copy the container ID of the MySQL docker container, e.g "3da13d9f19b0", then run "docker inspect 3da13d9f19b0 | grep IPA" and copy the IP address and paste it in the application.conf file that is located at cromwell-mysql/cromwell/config/. Towards the bottom of the file there is an IP address that points to the MySQL database, replace it with your copied IP address.  
