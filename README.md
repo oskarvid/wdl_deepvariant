@@ -9,9 +9,9 @@ wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/{Homo_sapiens_
 
 ## Setup instructions
 These three scripts need to be executed in the following order to start the pipeline.  
-1. sh start-mysql-server.sh  
-2. sh start-cromwell-server.sh  
-3. sh start-pipeline.sh  
+1. sh scripts/start-mysql-server.sh  
+2. sh scripts/start-cromwell-server.sh  
+3. sh scripts/start-pipeline.sh  
 
 If you simply run the start-mysql-server.sh script it will download the required mysql:5.7 docker image automatically. You might want to edit the username and password in the cromwell-mysql/mysql/init_user.sql file, the default is set to cromwell for both. If you edit the init_user.sql file, you also need to edit the cromwell-mysql/cromwell/application.conf file and set the correct username and password so cromwell can log in to the MySQL database.  
 
