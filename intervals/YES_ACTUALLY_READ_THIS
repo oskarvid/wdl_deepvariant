@@ -1,0 +1,6 @@
+There are two main directories for potential use in here, 17-lists and 18-lists.  
+The 17-lists directory is based on a bed file with regions containing confidently identified variants, the source list can be downloaded here: ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/NA12878_HG001/latest/GRCh38/HG001_GRCh38_GIAB_highconf_CG-IllFB-IllGATKHC-Ion-10X-SOLID_CHROM1-X_v.3.3.2_highconf_nosomaticdel_noCENorHET7.bed  
+The 18-lists directory is based on entire contigs from GRCh38, there are 555 contigs and the bed files cover approximately the same amount 
+of genetic territory, to the extent possible given the wildly varying lengths of the contigs.  
+The 6 lists directory is useful for testing purposes since the test bam file contains so few variants that using more shards risks creating
+empty files that will crash the pipeline due to empty output files.

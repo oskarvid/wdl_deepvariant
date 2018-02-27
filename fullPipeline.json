@@ -1,0 +1,20 @@
+{
+  "fastqPreProcessing.ref_fasta": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta",
+  "fastqPreProcessing.ref_fasta_index": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.fai",
+  "fastqPreProcessing.ref_ann": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.ann",
+  "fastqPreProcessing.ref_bwt": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.bwt",
+  "fastqPreProcessing.ref_sa": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.sa",
+  "fastqPreProcessing.ref_pac": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.pac",
+  "fastqPreProcessing.ref_amb": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.amb",
+  "fastqPreProcessing.ref_dict": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.dict",
+  "fastqPreProcessing.inputSamplesFile": "/media/big-disk/01-workspace/00-temp/deepvariant/inputs/template_sample_manifest.tsv",
+  "fastqPreProcessing.Input_Index": "/media/big-disk/01-workspace/00-temp/deepvariant/inputs/clean_sample_manifest.tsv",
+  "fastqPreProcessing.bedFile": [
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-1.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-2.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-3.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-4.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-5.bed",
+    "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/6-lists/bed-file-6.bed"
+  ]
+}

@@ -1,6 +1,0 @@
-{
-  "deepVariant.InputBam": "/home/oskar/01-workspace/00-temp/deepvariant/data/unmapped_bam.bam",
-  "deepVariant.InputBai": "/home/oskar/01-workspace/00-temp/deepvariant/data/unmapped_bam.bai",
-  "deepVariant.ReferenceFai": "/home/oskar/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.fai",
-  "deepVariant.ReferenceFasta": "/home/oskar/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta",
-}

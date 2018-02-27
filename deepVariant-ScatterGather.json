@@ -1,0 +1,26 @@
+{
+  "deepVariant.input_bam": "/media/big-disk/01-workspace/00-temp/deepvariant/data/mergesam.bam",
+  "deepVariant.input_bai": "/media/big-disk/01-workspace/00-temp/deepvariant/data/mergesam.bai",
+  "deepVariant.ref_fasta_index": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta.fai",
+  "deepVariant.ref_fasta": "/media/big-disk/01-workspace/01-data/refdata/hg38/Homo_sapiens_assembly38.fasta",
+  "deepVariant.bedFile": [
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/1_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/2_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/3_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/4_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/5_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/6_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/7_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/8_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/9_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/10_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/11_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/12_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/13_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/14_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/15_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/16_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/17_of_18/scattered.bed",
+     "/media/big-disk/01-workspace/00-temp/deepvariant/intervals/18-lists/18_of_18/scattered.bed",
+  ]
+}

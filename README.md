@@ -1,5 +1,5 @@
 ### DeepVariant wdl based pipeline  
-(This pipeline is only for testing purposes, there are probably resources usage issues with call variants, tread with caution)
+(This pipeline is for testing purposes only, tread with caution)
 
 ## Downloading the reference files  
 The default reference fasta is the hg38 fasta file from the Broad Institute, they host it at their public ftp server here: ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38  
@@ -22,5 +22,7 @@ Before you can run the start-cromwell.sh script, you need to run "sh scripts/dl-
 
 Now that the MySQL and cromwell servers are up and running, you need to edit the appropriate .json file for the pipeline version you want to run, e.g deepVariant.json for the complete pipeline. Edit the file paths for each file, also go to the inputs/template_sample_manifest.tsv file, enter the correct file paths for the input files, and once that's done you can finally run "sh scripts/start-pipeline.sh" script.
 
-There are currently three start pipeline scripts, one for the full version, one for the "simple.wdl" that starts with a bam file as input and uses GNU parallel for parallelization. This version is not planned to be long lived but this has still not been definitively decided.  
-The third start script will start with a bam file and run the deepvariant tools with scatter gather parallelization. The scatter gather version has not been tested enough yet, but it seems like each shard will get 16 threads in the call variants step, thus if you only have 16 cores and are running two or more shards, you will overload your machine. Tread with caution, this is still only for testing purposes.
+There are two pipeline start scripts, one to start a pipeline that takes fastq files as input and one that takes a bam file as input, for the
+same reason there's two wdl scripts as well. The full pipeline uses the tsv file in the inputs folder to define the input files, the pipeline
+supports correct creation of read groups, and this data is entered into the tsv file and parsed by the wdl script. The deepvariant wdl file
+takes a bam file as input, this is defined in the .json file. 
