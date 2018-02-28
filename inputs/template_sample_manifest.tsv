@@ -10,5 +10,4 @@
 # LIBRARY = Type: string. Value: library identifier used to identify if a sample has been sequenced with different libaries, and thus should be marked for duplicates separately														
 # PLATFORM = Type: string. Value: ILLUMINA/PACBIO/ONT, strict values														
 SAMPLE	FLOWCELL	LANE	FILE1	FILE2	LIBRARY	PLATFORM
-sample01	H7LJGBBXX	1	/media/big-disk/01-workspace/00-temp/deepvariant/data/test_R1.fastq.gz	/media/big-disk/01-workspace/00-temp/deepvariant/data/test_R2.fastq.gz	LIB1	ILLUMINA
-sample02	H7LJGBBXX	2	/media/big-disk/01-workspace/00-temp/deepvariant/data/test_R1.fastq.gz	/media/big-disk/01-workspace/00-temp/deepvariant/data/test_R2.fastq.gz	LIB2	ILLUMINA
+sample01	H7LJGBBXX	1	/media/big-disk/01-workspace/00-temp/wdl_deepvariant/data/MiSeq_Ecoli_MG1655_110721_PF_R1.fastq.gz	/media/big-disk/01-workspace/00-temp/wdl_deepvariant/data/MiSeq_Ecoli_MG1655_110721_PF_R2.fastq.gz	LIB1	ILLUMINA

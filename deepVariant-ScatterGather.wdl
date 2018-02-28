@@ -50,7 +50,7 @@ task make_examples {
 	String Examples
 
 	command {
-		python /home/bin/make_examples.zip \
+		python /opt/deepvariant/bin/make_examples.zip \
 		--mode calling \
 		--ref ${ref_fasta} \
 		--reads ${input_bam} \
@@ -62,7 +62,7 @@ task make_examples {
 		File ExamplesOutput = "${Examples}.tfrecord.gz"
 	}
     runtime {
-      docker: "dajunluo/deepvariant:latest"
+      docker: "oskarv/deepvariant:latest"
     }
 }
 
@@ -74,7 +74,7 @@ task call_variants {
 	i=0 && \
 	for file in ${sep=' ' Examples}; do
 		let "i++"
-		python /home/bin/call_variants.zip \
+		python /opt/deepvariant/bin/call_variants.zip \
 		--outfile file-$i.tfrecord.gz \
 		--examples $file \
 		--checkpoint /home/models/model.ckpt
@@ -85,7 +85,7 @@ task call_variants {
 		Array[File] CallOutput = glob("file-*.tfrecord.gz")
 	}
     runtime {
-      docker: "dajunluo/deepvariant:latest"
+      docker: "oskarv/deepvariant:latest"
     }
 }
 
@@ -96,7 +96,7 @@ task post_process {
 	String FinalOutput
 
 	command {
-		python /home/bin/postprocess_variants.zip \
+		python /opt/deepvariant/bin/postprocess_variants.zip \
 		--ref ${ref_fasta} \
 		--infile ${sep=' ' InputFile} \
 		--outfile ${FinalOutput}.vcf.gz
@@ -106,7 +106,7 @@ task post_process {
 		File Output = "${FinalOutput}.vcf.gz"
 	}
     runtime {
-      docker: "dajunluo/deepvariant:latest"
+      docker: "oskarv/deepvariant:latest"
     }
 }
 
