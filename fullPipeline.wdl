@@ -25,17 +25,6 @@ call FixInputSamplesFile {
   }
 
 scatter (element in FixInputSamplesFile.FixedSamplesFile) {
-  call FastqToSam {
-	input:
-	  ID = element[1] + "-" + element[2],
-	  LB = element[5],
-	  SM = element[0],
-	  PL = element[6],
-	  Input_Fastq1 = element[3],
-	  Input_Fastq2 = element[4],
-	  Unmapped_Basename = unmapped_basename,
-	}
-
   call BwaMem {
 	input:
 	  ref_fasta = ref_fasta,
@@ -54,23 +43,12 @@ scatter (element in FixInputSamplesFile.FixedSamplesFile) {
 	  Input_Fastq2 = element[4],
 	  Base_Name = Base_Name + ".bwa",
 	}
-
-  call MergeBamAlignment {
-	input:
-	  ref_fasta_index = ref_fasta_index,
-	  Unmapped_Bam = FastqToSam.outputbam,
-	  Aligned_Bam = BwaMem.outputfile,
-	  ref_dict = ref_dict,
-	  ref_fasta = ref_fasta,
-	  ref_fasta_index = ref_fasta_index,
-	  Output_Bam_Basename = unmapped_basename,
-	}
 }
 
 call MarkDup {
   input:
 	Base_Name = Base_Name + ".markdup.sortsam.bwa",
-	Input_File = MergeBamAlignment.output_bam,
+	Input_File = BwaMem.outputfile,
   }
 
 call deepSG.deepVariant {
@@ -96,37 +74,6 @@ task FixInputSamplesFile {
   }
 }
 
-task FastqToSam {
-  File Input_Fastq1
-  File Input_Fastq2
-  String ID
-  String SM
-  String LB
-  String PL
-  String Unmapped_Basename
-
-  command {
-	gatk --java-options -Djava.io.tempdir=`pwd`/tmp \
-	  FastqToSam \
-	  --FASTQ ${Input_Fastq1} \
-	  --FASTQ2 ${Input_Fastq2} \
-	  -O ${Unmapped_Basename}.bam \
-	  --SAMPLE_NAME ${SM} \
-	  --READ_GROUP_NAME ${ID} \
-	  --LIBRARY_NAME ${LB} \
-	  --PLATFORM ${PL} \
-	  --SORT_ORDER coordinate \
-	  --CREATE_MD5_FILE true
-	}
-  output {
-	File outputbam = "${Unmapped_Basename}.bam"
-	File outputbam_md5 = "${Unmapped_Basename}.bam.md5"
-  }
-  runtime {
-	docker: "oskarv/wdl:latest"
-  }
-}
-
 task BwaMem {
   File Input_Fastq1
   File Input_Fastq2
@@ -148,52 +95,11 @@ task BwaMem {
 	bwa mem -t 8 \
 	  -R "@RG\tID:${ID}\tSM:${SM}\tLB:${LB}\tPL:${PL}\tPU:NotDefined" \
 	  -M ${ref_fasta} ${Input_Fastq1} ${Input_Fastq2} \
-	  | samtools view -bS - \
-	  > ${Base_Name}.bam
+	  | gatk --java-options -Djava.io.tempdir=`pwd`/tmp \
+          SortSam -I /dev/stdin -O ${Base_Name}.bam -SO coordinate 
   }
   output {
 	File outputfile = "${Base_Name}.bam"
-  }
-  runtime {
-	docker: "oskarv/wdl:latest"
-  }
-}
-
-task MergeBamAlignment {
-  File ref_fasta_index
-  File Unmapped_Bam
-  File Aligned_Bam
-  File ref_fasta
-  File ref_dict
-  String Output_Bam_Basename
-
-  command {
-	gatk --java-options -Djava.io.tempdir=`pwd`/tmp \
-	  MergeBamAlignment \
-	  --VALIDATION_STRINGENCY SILENT \
-	  --EXPECTED_ORIENTATIONS FR \
-	  --ATTRIBUTES_TO_RETAIN X0 \
-	  --ALIGNED_BAM ${Aligned_Bam} \
-	  --UNMAPPED_BAM ${Unmapped_Bam} \
-	  -O ${Output_Bam_Basename}.bam \
-	  --REFERENCE_SEQUENCE ${ref_fasta} \
-	  --SORT_ORDER coordinate \
-	  --IS_BISULFITE_SEQUENCE false \
-	  --ALIGNED_READS_ONLY false \
-	  --CLIP_ADAPTERS false \
-	  --MAX_RECORDS_IN_RAM 200000 \
-	  --ADD_MATE_CIGAR true \
-	  --MAX_INSERTIONS_OR_DELETIONS -1 \
-	  --PRIMARY_ALIGNMENT_STRATEGY MostDistant \
-	  --PROGRAM_RECORD_ID "bwamem" \
-	  --PROGRAM_GROUP_VERSION "0.7.12-r1039" \
-	  --PROGRAM_GROUP_COMMAND_LINE "bwa mem -t 18 -R -M Input1 Input2 > output.sam" \
-	  --PROGRAM_GROUP_NAME "bwamem" \
-	  --CREATE_MD5_FILE true
-	}
-  output {
-	File output_bam = "${Output_Bam_Basename}.bam"
-	File output_md5 = "${Output_Bam_Basename}.bam.md5"
   }
   runtime {
 	docker: "oskarv/wdl:latest"
